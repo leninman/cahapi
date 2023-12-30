@@ -1,0 +1,9 @@
+insert into afiliados(nombre,apellido,email,create_at)values('LENIN','MANRIQUE','leninmanrique@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('LUIS','PEREZ','lperez@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('ELENA','GONZALEZ','elenagonz@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('ERNESTO','PERNIA','epernia@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('ADA','LOPEZ','adal@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('ROBERTO','HERNANDEZ','rhernadez@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('ANALIA','GUERRERO','analiaguer@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('SARA','AGUILAR','sarag@gmail.com',CURRENT_DATE);
+insert into afiliados(nombre,apellido,email,create_at)values('EDUARDO','UZCATEGUI','euzcategui@gmail.com',CURRENT_DATE);
