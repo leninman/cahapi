@@ -3,9 +3,10 @@ package com.ics.catpfanb.apirest.services.implementaciones;
 import com.ics.catpfanb.apirest.models.dao.IAfiliadoDao;
 import com.ics.catpfanb.apirest.models.entity.Afiliado;
 import com.ics.catpfanb.apirest.services.IAfiliadoService;
-import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
