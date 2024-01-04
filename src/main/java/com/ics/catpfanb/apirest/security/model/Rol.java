@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 //@Table(name = "authorities", uniqueConstraints= {@UniqueConstraint(columnNames= {"user_id", "authority"})})
-@Table(name = "authorities")
+@Table(name = "roles")
 
 public class Rol implements Serializable {
 
@@ -20,9 +20,9 @@ public class Rol implements Serializable {
 	@JsonIgnore
 	private Long id;
 
-	private String authority;
+	private String rolname;
 
-	//@ManyToOne()
+	@ManyToOne()
 	//@JoinColumn(name="user_id")
 	//private Usuario usuario;
 
