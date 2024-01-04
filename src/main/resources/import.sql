@@ -7,3 +7,5 @@ insert into afiliados(nombre,apellido,email,create_at)values('ROBERTO','HERNANDE
 insert into afiliados(nombre,apellido,email,create_at)values('ANALIA','GUERRERO','analiaguer@gmail.com',CURRENT_DATE);
 insert into afiliados(nombre,apellido,email,create_at)values('SARA','AGUILAR','sarag@gmail.com',CURRENT_DATE);
 insert into afiliados(nombre,apellido,email,create_at)values('EDUARDO','UZCATEGUI','euzcategui@gmail.com',CURRENT_DATE);
+insert into roles(rolename)values('ADMIN');
+insert into roles(rolename)values('USER')

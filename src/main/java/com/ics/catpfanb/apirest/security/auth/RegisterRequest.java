@@ -1,5 +1,6 @@
 package com.ics.catpfanb.apirest.security.auth;
 
+import com.ics.catpfanb.apirest.security.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,6 @@ public class RegisterRequest {
     String password;
     String firstname;
     String lastname;
-    String country; 
+    String email;
+    Role role;
 }

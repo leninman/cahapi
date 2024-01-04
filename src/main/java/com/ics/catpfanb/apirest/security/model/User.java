@@ -1,6 +1,8 @@
 package com.ics.catpfanb.apirest.security.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,14 +31,27 @@ public class User implements UserDetails {
     @Column(nullable = false)
     String lastname;
     String firstname;
-    String country;
     String password;
-    @Enumerated(EnumType.STRING) 
+
+    String email;
+    LocalDate issuedDate;
+    LocalDate lastModifcationDate;
+    Boolean enabled;
+    Boolean locked;
+    @ManyToOne
     Role role;
+
+    @PrePersist
+    public void prePersist(){
+        this.issuedDate=LocalDate.now();
+        this.lastModifcationDate=LocalDate.now();
+        this.enabled=true;
+        this.locked=false;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-      return List.of(new SimpleGrantedAuthority((role.name())));
+      return List.of(new SimpleGrantedAuthority((role.getRolename())));
     }
     @Override
     public boolean isAccountNonExpired() {
