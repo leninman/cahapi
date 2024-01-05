@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("app")
+@RequestMapping("security")
 public class SecurityController {
 
     @Autowired
@@ -56,13 +56,13 @@ public class SecurityController {
     }
 
 
-    @PostMapping("usuario/crear")
+    @PostMapping("user/create")
     public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario){
         Usuario usuarioguardado=usuarioService.salvarUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioguardado);
     }
 
-    @GetMapping("usuario/obtener")
+    @GetMapping("user/get")
     public ResponseEntity<Usuario> getUsuario(@RequestParam String nombredeusuario){
         Usuario usuario=usuarioService.consultarUsuario(nombredeusuario);
         if (usuario==null) {
@@ -72,13 +72,13 @@ public class SecurityController {
     }
 
 
-    @DeleteMapping("usuario/eliminar")
+    @DeleteMapping("user/delete")
     public ResponseEntity<?> deleteUsuario(@RequestParam Long idusuario){
         usuarioService.eliminarUsuario(idusuario);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("usuario/modificar")
+    @PutMapping("user/update")
     public ResponseEntity<Usuario> updateUsuario(@RequestBody Usuario usuario){
         Usuario usuariomodificado=usuarioService.modificarusuario(usuario);
         return ResponseEntity.ok(usuariomodificado);

@@ -1,5 +1,6 @@
 package com.ics.catpfanb.apirest.security.model;
 
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,7 @@ import java.io.Serializable;
 @Getter
 @Setter
 //@Table(name = "authorities", uniqueConstraints= {@UniqueConstraint(columnNames= {"user_id", "authority"})})
-@Table(name = "roles")
+@Table(name = "authorities")
 
 public class Rol implements Serializable {
 
@@ -20,9 +21,9 @@ public class Rol implements Serializable {
 	@JsonIgnore
 	private Long id;
 
-	private String rolname;
+	private String authority;
 
-	@ManyToOne()
+	//@ManyToOne()
 	//@JoinColumn(name="user_id")
 	//private Usuario usuario;
 
@@ -31,3 +32,6 @@ public class Rol implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 }
+
+
+
