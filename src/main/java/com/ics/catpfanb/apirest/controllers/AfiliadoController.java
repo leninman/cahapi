@@ -33,14 +33,12 @@ public class AfiliadoController {
         this.afiliadoService = afiliadoService;
     }
 
-    @GetMapping("listar")
-    //@PreAuthorize("hasRole('ROLE_ADMIN')")
+    @GetMapping()
     public List<Afiliado> listarAfiliados(){
         return afiliadoService.findAll();
     }
 
-    @GetMapping("consultar/{id}")
-    //@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @GetMapping("{id}")
     public ResponseEntity<?> findById(@PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
 
@@ -60,7 +58,7 @@ public class AfiliadoController {
         }
     }
 
-    @PostMapping("crear")
+    @PostMapping()
     public ResponseEntity<?> crear(@Valid @RequestBody Afiliado afiliado, BindingResult result){
         Map<String,Object> response=new HashMap<>();
         Afiliado nuevoAfiliado;
@@ -87,7 +85,7 @@ public class AfiliadoController {
 
     }
 
-    @DeleteMapping("eliminar/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
         try{
@@ -111,7 +109,7 @@ public class AfiliadoController {
 
     }
 
-    @PutMapping("actualizar/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<?> actualizar(@Valid @RequestBody Afiliado afiliado, BindingResult result, @PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
         Afiliado afiliadoActualizado;
