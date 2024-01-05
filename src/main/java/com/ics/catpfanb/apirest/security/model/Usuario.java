@@ -2,7 +2,6 @@ package com.ics.catpfanb.apirest.security.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ics.catpfanb.apirest.security.model.repo.Group;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -54,12 +53,15 @@ public class Usuario implements Serializable {
 	@JoinColumn(name = "user_id")
 	private List<Rol> roles;
 
+	@PrePersist
+	public void prePersist(){
+		this.issuedDate=LocalDate.now();
+		this.lastModifiedDate=LocalDate.now();
+		this.enabled=true;
+		this.locked=false;
+	}
 
 
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 
 }
