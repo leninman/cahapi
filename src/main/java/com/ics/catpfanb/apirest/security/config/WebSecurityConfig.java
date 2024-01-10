@@ -32,11 +32,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.httpBasic(withDefaults()).authorizeRequests()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/security/authenticate").permitAll()
-                .antMatchers("/security/user/**").hasAuthority("admin")
-             //   .antMatchers("/app/getTblCheque").hasAnyAuthority("admin","owner","user")
-             //   .antMatchers("/app/saveTblCheque").hasAnyAuthority("admin","owner")
-
+                .antMatchers("/security/login").permitAll()
+                .antMatchers("/security/user/create").permitAll()
+                .antMatchers("/security/user/get").hasAnyAuthority("admin","user")
+                .antMatchers("/security/user/delete").hasAuthority("admin")
+                .antMatchers("/security/user/list").hasAuthority("admin")
+                .antMatchers("/security/user/update").hasAuthority("admin")
+                .antMatchers("/afiliado/listar").hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and().cors()
                 .and()
@@ -50,10 +52,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
        auth.userDetailsService(usuarioDetailsService);
-
-       /* auth.inMemoryAuthentication().withUser("Tblcheque").password("{noop}"+"Microserviciotblechequepassword").roles("admin")
-                .and()
-                .withUser("user").password("{noop}"+"12345").roles("user");*/
     }
     @Override
     @Bean

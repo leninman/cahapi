@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class IUsuarioServiceImpl implements IUsuarioService {
 
@@ -35,6 +37,11 @@ public class IUsuarioServiceImpl implements IUsuarioService {
         }
 
 
+    }
+
+    @Override
+    public List<Usuario> listarUsuarios() {
+        return usuarioRepo.findAll();
     }
 
     @Override

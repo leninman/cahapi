@@ -19,6 +19,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping("security")
@@ -38,7 +40,7 @@ public class SecurityController {
 
 
 
-    @PostMapping("authenticate")
+    @PostMapping("login")
     public ResponseEntity<TokenInfo> authenticate(@RequestBody AuthenticationRequest authenticationRequest){
             logger.info("Autenticando al usuario {}",authenticationRequest.getUsuario());
             authenticationManager.authenticate(
@@ -56,11 +58,16 @@ public class SecurityController {
     }
 
 
-    @PostMapping("user/create")
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario){
-        Usuario usuarioguardado=usuarioService.salvarUsuario(usuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioguardado);
+
+    @GetMapping("user/list")
+    public ResponseEntity<List<Usuario>> listUsuarios(){
+        List<Usuario> usuarios=usuarioService.listarUsuarios();
+        if (usuarios==null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(usuarios);
     }
+
 
     @GetMapping("user/get")
     public ResponseEntity<Usuario> getUsuario(@RequestParam String nombredeusuario){
@@ -70,6 +77,15 @@ public class SecurityController {
         }
         return ResponseEntity.ok(usuario);
     }
+
+
+    @PostMapping("user/create")
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario){
+        Usuario usuarioguardado=usuarioService.salvarUsuario(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioguardado);
+    }
+
+
 
 
     @DeleteMapping("user/delete")
