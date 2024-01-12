@@ -34,6 +34,7 @@ public class AfiliadoController {
     }
 
     @GetMapping("listar")
+    @PreAuthorize("hasAuthority('admin')")
     public List<Afiliado> listarAfiliados(){
         return afiliadoService.findAll();
     }
