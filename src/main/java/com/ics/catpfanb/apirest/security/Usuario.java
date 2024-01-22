@@ -1,5 +1,6 @@
 package com.ics.catpfanb.apirest.security;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -28,14 +29,15 @@ public class Usuario implements Serializable {
     @NotEmpty
     private String nombreUsuario;
     @NotEmpty
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String clave;
     private String grupo;
     private String correo;
     private LocalDate fechaCreacion;
     private LocalDate fechaModificacion;
-    private Boolean bloqueado;
-    private Boolean habilitado;
-    @ManyToMany
+    private Boolean locked;
+    private Boolean enabled;
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "usuarios_roles",
             joinColumns = @JoinColumn(name="usuario_id"),
@@ -44,11 +46,13 @@ public class Usuario implements Serializable {
     )
     private List<Rol> roles;
 
+
     @PrePersist
     public void prePersist(){
-
         this.fechaCreacion=LocalDate.now();
         this.fechaModificacion=LocalDate.now();
+        this.locked=false;
+        this.enabled=true;
     }
 
 

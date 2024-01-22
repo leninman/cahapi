@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/usuarios")
+@RequestMapping("usuarios")
 @RequiredArgsConstructor
 @Slf4j
 public class SecurityController {
@@ -23,18 +24,54 @@ public class SecurityController {
     private final UsuarioService usuarioService;
 
 
-    @GetMapping
+    @GetMapping()
     public List<Usuario> usuarios(){
         return usuarioService.usuarios();
     }
 
-    @PostMapping
+    @PostMapping()//RUTA PRIVADA PARA REGISTRAR USUARIOS CON ROLE_ADMIN
     public ResponseEntity<?> crear(@Valid @RequestBody Usuario usuario,BindingResult result){
         Map<String,Object> response=new HashMap<>();
         Usuario nuevoUsuario;
         if(result.hasErrors()){
             return validation(result);
         }
+        if(usuarioService.consultarPorUsuario(usuario.getNombreUsuario()).isPresent()){
+            response.put("mensaje","El usuario ya existe");
+            return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+        }
+        try{
+            nuevoUsuario=usuarioService.guardar(usuario);
+        }catch (DataAccessException e){
+            response.put("mensaje","Error al realizar la insercion en la base de datos:");
+            response.put("error",e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        }
+        response.put("mensaje","El usuario ha sido creado con exito");
+        response.put("usuario",nuevoUsuario);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+
+    @PostMapping("registrar") //RUTA PUBLICA PARA REGISTRAR CUALQUIER USUARIO CON ROL_USER
+    public ResponseEntity<?> registrar(@Valid @RequestBody Usuario usuario,BindingResult result){
+        Map<String,Object> response=new HashMap<>();
+        if(result.hasErrors()){
+            return validation(result);
+        }
+        if(usuarioService.consultarPorUsuario(usuario.getNombreUsuario()).isPresent()){
+            response.put("mensaje","El usuario " + usuario.getNombreUsuario()+" ya existe!");
+            return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+        }
+        usuario.getRoles().stream().forEach(rol->{
+            if(rol.getNombreRol().equals("ROLE_ADMIN")){
+                rol.setNombreRol("ROLE_USER");
+            }
+        });
+
+        Usuario nuevoUsuario;
+
         try{
             nuevoUsuario=usuarioService.guardar(usuario);
         }catch (DataAccessException e){
