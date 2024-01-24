@@ -1,5 +1,7 @@
-package com.ics.catpfanb.apirest.security;
+package com.ics.catpfanb.apirest.security.service;
 
+import com.ics.catpfanb.apirest.security.entity.Usuario;
+import com.ics.catpfanb.apirest.security.repo.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;

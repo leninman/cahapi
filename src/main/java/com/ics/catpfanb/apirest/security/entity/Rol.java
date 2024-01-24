@@ -1,4 +1,4 @@
-package com.ics.catpfanb.apirest.security;
+package com.ics.catpfanb.apirest.security.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

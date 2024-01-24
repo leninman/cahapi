@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +32,14 @@ public class AfiliadoController {
         this.afiliadoService = afiliadoService;
     }
 
-    @GetMapping()
+    @GetMapping("listar")
+    //@PreAuthorize("hasAnyRole('ADMIN','USER')")
     public List<Afiliado> listarAfiliados(){
         return afiliadoService.findAll();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("consultar/{id}")
+  //  @PreAuthorize("hasAnyRole('ADMIN','USER')")
     public ResponseEntity<?> findById(@PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
 
@@ -56,7 +59,8 @@ public class AfiliadoController {
         }
     }
 
-    @PostMapping
+    @PostMapping("crear")
+    //@PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> crear(@Valid @RequestBody Afiliado afiliado, BindingResult result){
         Map<String,Object> response=new HashMap<>();
         Afiliado nuevoAfiliado;
@@ -83,7 +87,8 @@ public class AfiliadoController {
 
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("eliminar/{id}")
+   // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> eliminar(@PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
         try{
@@ -107,7 +112,8 @@ public class AfiliadoController {
 
     }
 
-    @PutMapping("{id}")
+    @PutMapping("modificar/{id}")
+   // @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> actualizar(@Valid @RequestBody Afiliado afiliado, BindingResult result, @PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
         Afiliado afiliadoActualizado;

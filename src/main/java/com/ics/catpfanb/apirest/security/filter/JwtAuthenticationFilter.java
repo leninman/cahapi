@@ -1,6 +1,7 @@
-package com.ics.catpfanb.apirest.security;
+package com.ics.catpfanb.apirest.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ics.catpfanb.apirest.security.entity.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
@@ -15,14 +16,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.crypto.SecretKey;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ics.catpfanb.apirest.security.TokenJwtConfig.*;
+import static com.ics.catpfanb.apirest.security.config.TokenJwtConfig.*;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 

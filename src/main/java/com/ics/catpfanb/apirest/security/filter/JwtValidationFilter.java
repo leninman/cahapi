@@ -1,6 +1,7 @@
-package com.ics.catpfanb.apirest.security;
+package com.ics.catpfanb.apirest.security.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ics.catpfanb.apirest.security.SimpleGrantedAuthorityJsonCreator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -22,7 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.ics.catpfanb.apirest.security.TokenJwtConfig.*;
+import static com.ics.catpfanb.apirest.security.config.TokenJwtConfig.*;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
     public JwtValidationFilter(AuthenticationManager authenticationManager) {

@@ -1,6 +1,7 @@
-package com.ics.catpfanb.apirest.security;
+package com.ics.catpfanb.apirest.security.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.ics.catpfanb.apirest.security.entity.Rol;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
