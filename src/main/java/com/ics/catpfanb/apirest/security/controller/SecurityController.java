@@ -1,6 +1,8 @@
 package com.ics.catpfanb.apirest.security.controller;
 
 import com.ics.catpfanb.apirest.models.entity.Afiliado;
+import com.ics.catpfanb.apirest.security.entity.UsuarioDto;
+import com.ics.catpfanb.apirest.security.entity.UsuarioDtoToUsuarioMapper;
 import com.ics.catpfanb.apirest.security.service.UsuarioService;
 import com.ics.catpfanb.apirest.security.entity.Usuario;
 import jakarta.validation.Valid;
@@ -9,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,6 +38,7 @@ public class SecurityController {
     }
 
     @PostMapping("crear")//RUTA PRIVADA PARA REGISTRAR USUARIOS CON ROLE_ADMIN
+  //  @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> crear(@Valid @RequestBody Usuario usuario,BindingResult result){
         Map<String,Object> response=new HashMap<>();
         Usuario nuevoUsuario;
@@ -110,8 +114,8 @@ public class SecurityController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PutMapping("modificar/{id}") //
-    public ResponseEntity<?> modificar(@Valid @RequestBody Usuario usuario,BindingResult result,@PathVariable Long id){
+    @PutMapping("modificar/{id}")
+    public ResponseEntity<?> modificar(@Valid @RequestBody UsuarioDto usuarioDto,BindingResult result,@PathVariable Long id){
         Map<String,Object> response=new HashMap<>();
         Usuario usuarioActualizado;
         Optional<Usuario> usuarioConsultado;
@@ -139,7 +143,13 @@ public class SecurityController {
         }
 
         try{
+            Usuario usuario=new UsuarioDtoToUsuarioMapper().apply(usuarioDto);
             usuario.setId(id);
+            usuario.setRoles(usuarioConsultado.get().getRoles());
+            usuario.setFechaCreacion(usuarioConsultado.get().getFechaCreacion());
+            usuario.setFechaModificacion(usuarioConsultado.get().getFechaModificacion());
+            usuario.setEnabled(usuarioConsultado.get().getEnabled());
+            usuario.setLocked(usuarioConsultado.get().getLocked());
             usuario.setFechaModificacion(LocalDate.now());
             usuarioActualizado =usuarioService.guardar(usuario);
         }catch(DataAccessException e){
@@ -153,6 +163,7 @@ public class SecurityController {
         return new ResponseEntity<>(response,HttpStatus.CREATED);
 
     }
+
 
 
     @DeleteMapping("eliminar/{id}")

@@ -1,5 +1,6 @@
 package com.ics.catpfanb.apirest.security.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ics.catpfanb.apirest.security.entity.Rol;
 import jakarta.persistence.*;
@@ -38,6 +39,7 @@ public class Usuario implements Serializable {
     private LocalDate fechaModificacion;
     private Boolean locked;
     private Boolean enabled;
+    @JsonIgnoreProperties({"usuarios", "handler", "hibernateLazyInitializer"})
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "usuarios_roles",
@@ -47,6 +49,15 @@ public class Usuario implements Serializable {
     )
     private List<Rol> roles;
 
+
+    public Usuario(String nombres, String apellidos, String nombreUsuario, String clave, String grupo, String correo) {
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.nombreUsuario = nombreUsuario;
+        this.clave = clave;
+        this.grupo = grupo;
+        this.correo = correo;
+    }
 
     @PrePersist
     public void prePersist(){
