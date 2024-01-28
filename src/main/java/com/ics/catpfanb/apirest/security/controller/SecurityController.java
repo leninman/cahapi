@@ -1,6 +1,7 @@
 package com.ics.catpfanb.apirest.security.controller;
 
 import com.ics.catpfanb.apirest.models.entity.Afiliado;
+import com.ics.catpfanb.apirest.security.entity.Rol;
 import com.ics.catpfanb.apirest.security.entity.UsuarioDto;
 import com.ics.catpfanb.apirest.security.entity.UsuarioDtoToUsuarioMapper;
 import com.ics.catpfanb.apirest.security.service.UsuarioService;
@@ -37,13 +38,21 @@ public class SecurityController {
         return usuarioService.usuarios();
     }
 
-    @PostMapping("crear")//RUTA PRIVADA PARA REGISTRAR USUARIOS CON ROLE_ADMIN
+    @PostMapping("crear")//RUTA PRIVADA PARA CREAR USUARIOS CON ROLE_ADMIN
   //  @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> crear(@Valid @RequestBody Usuario usuario,BindingResult result){
         Map<String,Object> response=new HashMap<>();
         Usuario nuevoUsuario;
         if(result.hasErrors()){
             return validation(result);
+        }
+        List<Rol> roles=usuario.getRoles();
+        for(Rol rol:roles){
+            if(rol.getNombreRol().isEmpty()){
+                response.put("mensaje","El nombre del rol no puede estar en blanco ");
+                return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+            }
+
         }
         if(usuarioService.consultarPorUsuario(usuario.getNombreUsuario()).isPresent()){
             response.put("mensaje","El usuario ya existe");
@@ -88,6 +97,14 @@ public class SecurityController {
         Map<String,Object> response=new HashMap<>();
         if(result.hasErrors()){
             return validation(result);
+        }
+        List<Rol> roles=usuario.getRoles();
+        for(Rol rol:roles){
+            if(rol.getNombreRol().isEmpty()){
+                response.put("mensaje","El nombre del rol no puede estar en blanco ");
+                return new ResponseEntity<>(response,HttpStatus.BAD_REQUEST);
+            }
+
         }
         if(usuarioService.consultarPorUsuario(usuario.getNombreUsuario()).isPresent()){
             response.put("mensaje","El usuario " + usuario.getNombreUsuario()+" ya existe!");
